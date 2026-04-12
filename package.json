@@ -1,0 +1,61 @@
+{
+  "name": "@agenticdiagrams/schema",
+  "version": "0.1.0",
+  "description": "Agentic YAML Schema — spec, types, and validation for .agentic.yaml diagram files",
+  "type": "module",
+  "main": "./dist/index.cjs",
+  "module": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "import": {
+        "types": "./dist/index.d.ts",
+        "default": "./dist/index.js"
+      },
+      "require": {
+        "types": "./dist/index.d.cts",
+        "default": "./dist/index.cjs"
+      }
+    },
+    "./schema.json": "./schema/agentic.v0.1.json"
+  },
+  "files": [
+    "dist",
+    "schema",
+    "examples"
+  ],
+  "scripts": {
+    "build": "tsup",
+    "typecheck": "tsc --noEmit",
+    "test": "vitest run",
+    "test:watch": "vitest",
+    "lint": "prettier --check .",
+    "format": "prettier --write .",
+    "prepublishOnly": "npm run build"
+  },
+  "keywords": [
+    "agentic",
+    "yaml",
+    "schema",
+    "diagram",
+    "ai-agents",
+    "mcp",
+    "validation"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/agenticdiagrams/schema.git"
+  },
+  "homepage": "https://agenticdiagrams.com",
+  "license": "MIT",
+  "dependencies": {
+    "ajv": "^8.17.1",
+    "ajv-formats": "^3.0.1"
+  },
+  "devDependencies": {
+    "prettier": "^3.5.3",
+    "tsup": "^8.4.0",
+    "typescript": "^5.8.3",
+    "vitest": "^3.1.1"
+  }
+}

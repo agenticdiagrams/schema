@@ -1,0 +1,201 @@
+agentic: "0.1"
+
+diagram:
+  name: Kitchen Manager Agent
+  description: Multi-protocol agentic system with inventory tracking and recipe lookup
+  active_scenario: dinner-prep
+
+nodes:
+  chef:
+    type: human
+    label: Head Chef
+    edges:
+      - to: orchestrator
+        type: event
+        label: Menu request
+        source_handle: bottom
+        target_handle: top
+
+  orchestrator:
+    type: agent
+    label: Kitchen Manager
+    edges:
+      - to: inventory-agent
+        label: Delegate inventory check
+        source_handle: bottom
+        target_handle: top
+      - to: recipe-agent
+        source_handle: bottom
+        target_handle: top
+      - to: kitchen-model
+        source_handle: right
+        target_handle: left
+      - to: custom-timer
+        type: async
+        source_handle: bottom
+        target_handle: top
+
+  inventory-agent:
+    type: agent
+    label: Inventory Tracker
+    is_looping: true
+    edges:
+      - to: mcp-pantry
+      - to: mcp-inventory-db
+
+  recipe-agent:
+    type: agent
+    label: Recipe Finder
+    edges:
+      - to: recipe-kb
+
+  kitchen-model:
+    type: model
+    sub_type: llm
+    label: GPT-4o
+    provider: OpenAI
+
+  mcp-pantry:
+    type: tool
+    sub_type: mcp
+    label: Pantry MCP Server
+
+  mcp-inventory-db:
+    type: tool
+    sub_type: mcp
+    label: Inventory Database
+
+  custom-timer:
+    type: tool
+    sub_type: custom
+    label: Kitchen Timer
+
+  recipe-kb:
+    type: knowledge_base
+    sub_type: documents
+    label: Recipe Collection
+
+scenarios:
+  dinner-prep:
+    name: Dinner Preparation Flow
+    description: Chef requests dinner suggestions, system checks inventory and finds recipes
+    steps:
+      - from: chef
+        to: orchestrator
+        label: What can we cook tonight?
+        payload: '{"request": "dinner_suggestions", "guests": 4}'
+
+      - from: orchestrator
+        to: kitchen-model
+        label: Plan approach
+
+      - from: kitchen-model
+        to: orchestrator
+        type: return
+        label: Check inventory then find recipes
+
+      - from: orchestrator
+        to: inventory-agent
+        label: Check available ingredients
+        fragment:
+          type: par
+          label: Parallel lookup
+          position: start
+
+      - from: inventory-agent
+        to: mcp-pantry
+        label: Query pantry
+
+      - from: mcp-pantry
+        to: inventory-agent
+        type: return
+        label: Pantry contents
+
+      - from: inventory-agent
+        to: mcp-inventory-db
+        label: Query fridge & freezer
+
+      - from: mcp-inventory-db
+        to: inventory-agent
+        type: return
+        label: Fridge stock
+
+      - from: inventory-agent
+        to: orchestrator
+        type: return
+        label: Full ingredient list
+        payload: '{"ingredients": ["pasta", "tomatoes", "basil", "chicken", "cream"]}'
+
+      - from: orchestrator
+        to: recipe-agent
+        label: Find matching recipes
+        fragment:
+          type: par
+          position: end
+
+      - from: recipe-agent
+        to: recipe-kb
+        label: Search recipes by ingredients
+
+      - from: recipe-kb
+        to: recipe-agent
+        type: return
+        label: Matching recipes
+
+      - from: recipe-agent
+        to: orchestrator
+        type: return
+        label: Recipe suggestions
+        payload: '{"recipes": ["Chicken Alfredo", "Pasta Pomodoro", "Caprese Chicken"]}'
+
+      - from: orchestrator
+        to: chef
+        type: return
+        label: Tonight's menu options
+
+  low-stock:
+    name: Low Stock Alert
+    description: Inventory agent detects low stock and alerts the chef
+    steps:
+      - from: inventory-agent
+        to: mcp-inventory-db
+        label: Periodic stock check
+        fragment:
+          type: loop
+          label: Every 30 minutes
+          position: start
+
+      - from: mcp-inventory-db
+        to: inventory-agent
+        type: return
+        label: Current levels
+
+      - from: inventory-agent
+        to: orchestrator
+        type: event
+        label: Low stock warning
+        payload: '{"item": "tomatoes", "remaining": 2, "threshold": 5}'
+        fragment:
+          type: loop
+          position: end
+
+      - from: orchestrator
+        to: chef
+        type: event
+        label: Restock needed
+        note:
+          text: Only alerts if stock below threshold
+          position: right
+
+layout:
+  viewport: [300, -50, 1.2]
+  positions:
+    chef: [350, -200]
+    orchestrator: [350, 0]
+    inventory-agent: [100, 200]
+    recipe-agent: [600, 200]
+    kitchen-model: [700, 0]
+    mcp-pantry: [0, 400]
+    mcp-inventory-db: [200, 400]
+    custom-timer: [350, 400]
+    recipe-kb: [600, 400]
