@@ -75,6 +75,14 @@
         "provider": { "type": "string" },
         "content": { "type": "string" },
         "example_response": { "type": "string" },
+        "ttl": {
+          "type": "string",
+          "description": "Retention lifetime. Primarily for memory nodes. Preset values: session, 24h, permanent. Freeform strings (e.g. 7d) are accepted."
+        },
+        "scope": {
+          "type": "string",
+          "description": "Audience scope. Primarily for memory nodes. Preset values: per-user, per-session, global. Freeform strings accepted."
+        },
         "edges": {
           "type": "array",
           "description": "Inline edge definitions (from is inferred as this node)",
