@@ -103,6 +103,36 @@ These properties are meaningful for specific node types but accepted on any node
 | `provider`         | string  | model            | Model provider (OpenAI, etc)    |
 | `content`          | string  | prompt, note, text_label | Text content            |
 | `example_response` | string  | agent            | Example agent response          |
+| `ttl`              | string  | memory           | Retention lifetime (e.g. `session`, `24h`, `permanent`, or freeform) |
+| `scope`            | string  | memory           | Audience scope (e.g. `per-user`, `per-session`, `global`, or freeform) |
+
+#### Memory node retention fields
+
+`ttl` and `scope` describe data lifecycle for memory nodes, aiding security and compliance reviews.
+
+```yaml
+nodes:
+  session-cache:
+    type: memory
+    sub_type: vector
+    ttl: 24h
+    scope: per-user
+
+  shared-knowledge:
+    type: memory
+    sub_type: sql
+    ttl: permanent
+    scope: global
+
+  temp-context:
+    type: memory
+    ttl: session         # cleared when the session ends
+    scope: per-session
+```
+
+Preset `ttl` values: `session`, `24h`, `permanent`. Any freeform string (e.g. `7d`, `30m`, `1y`) is also valid.
+
+Preset `scope` values: `per-user`, `per-session`, `global`. Any freeform string (e.g. `per-team`, `per-org`) is also valid.
 
 ### Node types
 
@@ -395,6 +425,8 @@ Property name mapping:
 | `provider`          | `modelProvider`      |
 | `example_response`  | `exampleResponse`    |
 | `linked_diagram`    | `linkedDiagramId`    |
+| `ttl`               | `memoryTtl`          |
+| `scope`             | `memoryScope`        |
 | `group`             | `parentId` (on Node) |
 | `parent_diagram`    | `parentId` (on Diagram) |
 | `from` / `to`       | `source` / `target` (edges) |

@@ -38,6 +38,10 @@ export interface AgenticNode {
   content?: string;
   example_response?: string;
   edges?: AgenticInlineEdge[];
+  /** Retention lifetime — primarily for memory nodes. Preset values: 'session' | '24h' | 'permanent'. Freeform strings (e.g. '7d') are accepted. */
+  ttl?: string;
+  /** Audience scope — primarily for memory nodes. Preset values: 'per-user' | 'per-session' | 'global'. Freeform strings accepted. */
+  scope?: string;
 }
 
 export interface AgenticInlineEdge {
