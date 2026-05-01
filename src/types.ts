@@ -48,6 +48,7 @@ export interface AgenticInlineEdge {
   to: string;
   type?: string;
   label?: string;
+  condition?: string;
   animated?: boolean;
   path?: string;
   source_handle?: string;
@@ -59,6 +60,7 @@ export interface AgenticEdge {
   to: string;
   type?: string;
   label?: string;
+  condition?: string;
   animated?: boolean;
   path?: string;
   source_handle?: string;
