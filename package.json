@@ -1,6 +1,6 @@
 {
   "name": "@agenticdiagrams/schema",
-  "version": "0.1.1",
+  "version": "0.1.2",
   "description": "Agentic YAML Schema — spec, types, and validation for .agentic.yaml diagram files",
   "type": "module",
   "main": "./dist/index.cjs",
