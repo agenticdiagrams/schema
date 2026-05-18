@@ -101,8 +101,8 @@
     },
     "handlePosition": {
       "type": "string",
-      "enum": ["top", "right", "bottom", "left"],
-      "description": "Which side of the node the edge connects to"
+      "pattern": "^(?:top|right|bottom|left)(?:-\\d+(?:-t)?)?$",
+      "description": "Connection point on a node. Plain side name ('bottom') connects at the centre; slot form ('bottom-20') places the anchor at 20 % along that side; '-t' suffix marks a target slot ('top-80-t')."
     },
     "edge": {
       "type": "object",

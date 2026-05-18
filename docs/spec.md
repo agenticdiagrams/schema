@@ -224,8 +224,8 @@ Both forms produce identical results. On import, inline edges are merged with to
 | `label`         | string  | no       | —         | Edge label                                  |
 | `animated`      | boolean | no       | `false`   | Show animated flow on connection            |
 | `path`          | string  | no       | `bezier`  | Path rendering hint                         |
-| `source_handle` | string  | no       | —         | Which side of source node: `top`, `right`, `bottom`, `left` |
-| `target_handle` | string  | no       | —         | Which side of target node: `top`, `right`, `bottom`, `left` |
+| `source_handle` | string  | no       | —         | Connection point on source node (see below) |
+| `target_handle` | string  | no       | —         | Connection point on target node (see below) |
 
 ### Edge types
 
@@ -248,6 +248,28 @@ Both forms produce identical results. On import, inline edges are merged with to
 | `step`         | Right-angle steps             |
 | `smooth_step`  | Smooth right-angle steps      |
 | `simple_bezier`| Simple bezier curve           |
+
+### Handle positions
+
+`source_handle` and `target_handle` accept two forms:
+
+**Plain side name** — connects at the centre of that side (default behavior):
+
+```yaml
+source_handle: bottom
+target_handle: top
+```
+
+**Slot form** — places the anchor at a specific percentage along the side, in 10 % increments (10–90):
+
+```yaml
+source_handle: bottom-20   # 20 % from the left edge of the bottom side
+target_handle: top-80-t    # 80 % from the left edge of the top side (-t marks a target slot)
+```
+
+The `-t` suffix distinguishes target slots from source slots when both are present on the same side. It is added automatically by the editor on export and must be preserved when hand-editing.
+
+When handles are omitted, the editor uses direction-aware defaults (`bottom`/`top` for TB, `right`/`left` for LR, etc.).
 
 ## Scenarios
 
