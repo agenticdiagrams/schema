@@ -104,6 +104,14 @@
       "pattern": "^(?:top|right|bottom|left)(?:-\\d+(?:-t)?)?$",
       "description": "Connection point on a node. Plain side name ('bottom') connects at the centre; slot form ('bottom-20') places the anchor at 20 % along that side; '-t' suffix marks a target slot ('top-80-t')."
     },
+    "edgeMetadata": {
+      "type": "object",
+      "description": "Freeform presentation hints for an edge (editor cosmetics). Known keys are typed; unknown keys are allowed.",
+      "additionalProperties": true,
+      "properties": {
+        "label_pos": { "type": "number", "minimum": 0, "maximum": 1, "description": "Label position along the edge as a fraction of its length (0 = source end, 1 = target end). Defaults to 0.5." }
+      }
+    },
     "edge": {
       "type": "object",
       "required": ["from", "to"],
@@ -117,7 +125,8 @@
         "animated": { "type": "boolean", "description": "Show animated flow on connection" },
         "path": { "$ref": "#/$defs/pathType" },
         "source_handle": { "$ref": "#/$defs/handlePosition" },
-        "target_handle": { "$ref": "#/$defs/handlePosition" }
+        "target_handle": { "$ref": "#/$defs/handlePosition" },
+        "metadata": { "$ref": "#/$defs/edgeMetadata" }
       }
     },
     "inlineEdge": {
@@ -133,7 +142,8 @@
         "animated": { "type": "boolean", "description": "Show animated flow on connection" },
         "path": { "$ref": "#/$defs/pathType" },
         "source_handle": { "$ref": "#/$defs/handlePosition" },
-        "target_handle": { "$ref": "#/$defs/handlePosition" }
+        "target_handle": { "$ref": "#/$defs/handlePosition" },
+        "metadata": { "$ref": "#/$defs/edgeMetadata" }
       }
     },
     "stepType": {

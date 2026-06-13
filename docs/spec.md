@@ -226,6 +226,25 @@ Both forms produce identical results. On import, inline edges are merged with to
 | `path`          | string  | no       | `bezier`  | Path rendering hint                         |
 | `source_handle` | string  | no       | —         | Connection point on source node (see below) |
 | `target_handle` | string  | no       | —         | Connection point on target node (see below) |
+| `metadata`      | object  | no       | —         | Presentation hints for the edge (see below) |
+
+### Edge metadata
+
+`metadata` carries freeform presentation hints set by the editor. Known keys are typed; unknown keys are allowed so the editor can stash additional cosmetics without a schema change.
+
+| Key         | Type   | Description                                                                                              |
+|-------------|--------|----------------------------------------------------------------------------------------------------------|
+| `label_pos` | number | Label position along the edge as a fraction of its length (0 = source end, 1 = target end). Default 0.5. |
+
+```yaml
+edges:
+  - from: gw
+    to: plan
+    type: data
+    label: issue
+    metadata:
+      label_pos: 0.72 # slide the label 72 % along the edge
+```
 
 ### Edge types
 
