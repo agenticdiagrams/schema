@@ -19,9 +19,7 @@ describe('validate', () => {
         'agent-1': { type: 'agent', label: 'My Agent' },
         'tool-1': { type: 'tool', sub_type: 'mcp' },
       },
-      edges: [
-        { from: 'agent-1', to: 'tool-1', type: 'request' },
-      ],
+      edges: [{ from: 'agent-1', to: 'tool-1', type: 'request' }],
       scenarios: {
         'flow-1': {
           name: 'Happy Path',
@@ -55,13 +53,61 @@ describe('validate', () => {
     expect(result.valid).toBe(true);
   });
 
+  it('accepts edge metadata with label_pos', () => {
+    const result = validate({
+      agentic: '0.1',
+      edges: [{ from: 'a', to: 'b', metadata: { label_pos: 0.72 } }],
+    });
+    expect(result.valid).toBe(true);
+  });
+
+  it('accepts edge metadata with unknown keys', () => {
+    const result = validate({
+      agentic: '0.1',
+      edges: [{ from: 'a', to: 'b', metadata: { label_pos: 0.5, future_hint: 'x' } }],
+    });
+    expect(result.valid).toBe(true);
+  });
+
+  it('rejects label_pos out of range', () => {
+    const result = validate({
+      agentic: '0.1',
+      edges: [{ from: 'a', to: 'b', metadata: { label_pos: 1.5 } }],
+    });
+    expect(result.valid).toBe(false);
+  });
+
   it('accepts all node types', () => {
     const types = [
-      'agent', 'tool', 'component', 'backend', 'generic', 'note',
-      'system', 'memory', 'gateway', 'skill', 'channel', 'waypoint',
-      'router', 'human', 'trigger', 'guardrail', 'model', 'aggregator',
-      'observability', 'group', 'block', 'image', 'prompt', 'user',
-      'output', 'knowledge_base', 'environment', 'text_label', 'divider',
+      'agent',
+      'tool',
+      'component',
+      'backend',
+      'generic',
+      'note',
+      'system',
+      'memory',
+      'gateway',
+      'skill',
+      'channel',
+      'waypoint',
+      'router',
+      'human',
+      'trigger',
+      'guardrail',
+      'model',
+      'aggregator',
+      'observability',
+      'group',
+      'block',
+      'image',
+      'prompt',
+      'user',
+      'output',
+      'knowledge_base',
+      'environment',
+      'text_label',
+      'divider',
     ];
     for (const type of types) {
       const result = validate({

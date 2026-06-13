@@ -44,6 +44,17 @@ export interface AgenticNode {
   scope?: string;
 }
 
+/**
+ * Freeform presentation hints for an edge (editor cosmetics). Known keys are
+ * typed; unknown keys are allowed so the editor can stash additional hints
+ * without a schema change.
+ */
+export interface AgenticEdgeMetadata {
+  /** Label position along the edge as a fraction of its length (0 = source end, 1 = target end). Defaults to 0.5. */
+  label_pos?: number;
+  [key: string]: unknown;
+}
+
 export interface AgenticInlineEdge {
   to: string;
   type?: string;
@@ -53,6 +64,7 @@ export interface AgenticInlineEdge {
   path?: string;
   source_handle?: string;
   target_handle?: string;
+  metadata?: AgenticEdgeMetadata;
 }
 
 export interface AgenticEdge {
@@ -65,6 +77,7 @@ export interface AgenticEdge {
   path?: string;
   source_handle?: string;
   target_handle?: string;
+  metadata?: AgenticEdgeMetadata;
 }
 
 export interface AgenticStep {
