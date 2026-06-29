@@ -112,6 +112,10 @@
         "label_pos": { "type": "number", "minimum": 0, "maximum": 1, "description": "Label position along the edge as a fraction of its length (0 = source end, 1 = target end). Defaults to 0.5." }
       }
     },
+    "edgeArrows": {
+      "enum": ["none", "start", "end", "both"],
+      "description": "Which ends of an edge show an arrowhead: none, start (source), end (target), or both. Defaults to 'end'."
+    },
     "edge": {
       "type": "object",
       "required": ["from", "to"],
@@ -123,6 +127,7 @@
         "label": { "type": "string" },
         "condition": { "type": "string", "description": "Branch condition expression, e.g. 'approved', 'score > 0.8', 'default'" },
         "animated": { "type": "boolean", "description": "Show animated flow on connection" },
+        "arrows": { "$ref": "#/$defs/edgeArrows" },
         "path": { "$ref": "#/$defs/pathType" },
         "source_handle": { "$ref": "#/$defs/handlePosition" },
         "target_handle": { "$ref": "#/$defs/handlePosition" },
@@ -140,6 +145,7 @@
         "label": { "type": "string" },
         "condition": { "type": "string", "description": "Branch condition expression, e.g. 'approved', 'score > 0.8', 'default'" },
         "animated": { "type": "boolean", "description": "Show animated flow on connection" },
+        "arrows": { "$ref": "#/$defs/edgeArrows" },
         "path": { "$ref": "#/$defs/pathType" },
         "source_handle": { "$ref": "#/$defs/handlePosition" },
         "target_handle": { "$ref": "#/$defs/handlePosition" },

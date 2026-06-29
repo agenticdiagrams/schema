@@ -55,12 +55,16 @@ export interface AgenticEdgeMetadata {
   [key: string]: unknown;
 }
 
+/** Which ends of an edge show an arrowhead. Defaults to `'end'` (arrow at the target). */
+export type AgenticEdgeArrows = 'none' | 'start' | 'end' | 'both';
+
 export interface AgenticInlineEdge {
   to: string;
   type?: string;
   label?: string;
   condition?: string;
   animated?: boolean;
+  arrows?: AgenticEdgeArrows;
   path?: string;
   source_handle?: string;
   target_handle?: string;
@@ -74,6 +78,7 @@ export interface AgenticEdge {
   label?: string;
   condition?: string;
   animated?: boolean;
+  arrows?: AgenticEdgeArrows;
   path?: string;
   source_handle?: string;
   target_handle?: string;
