@@ -223,6 +223,7 @@ Both forms produce identical results. On import, inline edges are merged with to
 | `type`          | string  | no       | `request` | Edge type (see below)                       |
 | `label`         | string  | no       | —         | Edge label                                  |
 | `animated`      | boolean | no       | `false`   | Show animated flow on connection            |
+| `arrows`        | string  | no       | `end`     | Arrowheads: `none`, `start`, `end`, `both`  |
 | `path`          | string  | no       | `bezier`  | Path rendering hint                         |
 | `source_handle` | string  | no       | —         | Connection point on source node (see below) |
 | `target_handle` | string  | no       | —         | Connection point on target node (see below) |
