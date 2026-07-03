@@ -214,4 +214,34 @@ describe('validate', () => {
     expect(result.errors.length).toBeGreaterThan(0);
     expect(result.errors[0]).toContain('/edges');
   });
+
+  it('exposes structured issues alongside the flattened strings', () => {
+    const result = validate({ agentic: '0.1', edges: 'not-an-array' });
+    expect(result.valid).toBe(false);
+    expect(result.issues.length).toBe(result.errors.length);
+    const issue = result.issues[0];
+    expect(issue.path).toBe('/edges');
+    expect(issue.keyword).toBe('type');
+    expect(typeof issue.message).toBe('string');
+    expect(issue.params).toBeTypeOf('object');
+    // The flattened string is derived from the structured issue.
+    expect(result.errors[0]).toBe(`${issue.path}: ${issue.message}`);
+  });
+
+  it('surfaces the failed keyword for an enum violation', () => {
+    const result = validate({
+      agentic: '0.1',
+      nodes: { n: { type: 'not_a_real_type' } },
+    });
+    expect(result.valid).toBe(false);
+    const enumIssue = result.issues.find((i) => i.keyword === 'enum');
+    expect(enumIssue).toBeDefined();
+    expect(Array.isArray(enumIssue?.params.allowedValues)).toBe(true);
+  });
+
+  it('reports no issues for a valid document', () => {
+    const result = validate({ agentic: '0.1' });
+    expect(result.valid).toBe(true);
+    expect(result.issues).toHaveLength(0);
+  });
 });

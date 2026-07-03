@@ -2,9 +2,32 @@ import Ajv2020 from 'ajv/dist/2020.js';
 import addFormats from 'ajv-formats';
 import schema from '../schema/agentic.v0.1.json';
 
+/**
+ * A single validation failure, in structured form for programmatic handling
+ * (e.g. mapping an error back to a form field or diagram element). Decoupled
+ * from Ajv's own error type so consumers don't take an ajv dependency.
+ */
+export interface ValidationIssue {
+  /** JSON Pointer to the offending value (`'/'` for the document root). */
+  path: string;
+  /** Human-readable description of what failed. */
+  message: string;
+  /** The failed schema keyword, e.g. `'type'`, `'required'`, `'enum'`. */
+  keyword: string;
+  /** Keyword-specific detail, e.g. `{ allowedValues }` or `{ missingProperty }`. */
+  params: Record<string, unknown>;
+}
+
 export interface ValidationResult {
   valid: boolean;
+  /**
+   * Flattened `"<path>: <message>"` strings — the stable, human-facing form.
+   * Retained for backwards compatibility; prefer {@link ValidationIssue} for
+   * programmatic handling.
+   */
   errors: string[];
+  /** Structured, per-failure detail. Empty when {@link ValidationResult.valid}. */
+  issues: ValidationIssue[];
 }
 
 const ajv = new Ajv2020({ allErrors: true });
@@ -33,14 +56,17 @@ export function validate(data: unknown): ValidationResult {
   const valid = compiledValidate(data);
 
   if (valid) {
-    return { valid: true, errors: [] };
+    return { valid: true, errors: [], issues: [] };
   }
 
-  const errors = (compiledValidate.errors ?? []).map((err) => {
-    const path = err.instancePath || '/';
-    const message = err.message || 'unknown error';
-    return `${path}: ${message}`;
-  });
+  const issues: ValidationIssue[] = (compiledValidate.errors ?? []).map((err) => ({
+    path: err.instancePath || '/',
+    message: err.message || 'unknown error',
+    keyword: err.keyword,
+    params: (err.params ?? {}) as Record<string, unknown>,
+  }));
 
-  return { valid: false, errors };
+  const errors = issues.map((issue) => `${issue.path}: ${issue.message}`);
+
+  return { valid: false, errors, issues };
 }

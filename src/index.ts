@@ -5,6 +5,7 @@ export type {
   AgenticInlineEdge,
   AgenticEdge,
   AgenticEdgeArrows,
+  AgenticEdgeMetadata,
   AgenticStep,
   AgenticScenario,
   AgenticNodeStyle,
@@ -12,4 +13,4 @@ export type {
 } from './types';
 
 export { validate } from './validate';
-export type { ValidationResult } from './validate';
+export type { ValidationResult, ValidationIssue } from './validate';
