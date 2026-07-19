@@ -1,4 +1,4 @@
-agentic: "0.1"
+agentic: '0.1'
 
 diagram:
   name: Guarded Multi-Agent Pipeline

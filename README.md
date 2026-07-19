@@ -44,14 +44,14 @@ Or reference it by URL: `https://agenticdiagrams.com/schemas/agentic/0.1.json`
 
 ## What's in the box
 
-| Export | Description |
-|--------|-------------|
-| `AgenticYaml` | Root document type |
-| `AgenticNode` | Node definition |
-| `AgenticEdge` | Edge (connection) definition |
-| `AgenticScenario` | Flow scenario with steps |
-| `AgenticLayout` | Layout hints (positions, sizes, styles) |
-| `validate()` | Structural validation against JSON Schema |
+| Export            | Description                               |
+| ----------------- | ----------------------------------------- |
+| `AgenticYaml`     | Root document type                        |
+| `AgenticNode`     | Node definition                           |
+| `AgenticEdge`     | Edge (connection) definition              |
+| `AgenticScenario` | Flow scenario with steps                  |
+| `AgenticLayout`   | Layout hints (positions, sizes, styles)   |
+| `validate()`      | Structural validation against JSON Schema |
 
 ## Spec
 
@@ -68,13 +68,13 @@ The [`examples/`](examples/) directory contains complete `.agentic.yaml` files:
 ## Minimum valid document
 
 ```yaml
-agentic: "0.1"
+agentic: '0.1'
 ```
 
 A practical minimum:
 
 ```yaml
-agentic: "0.1"
+agentic: '0.1'
 nodes:
   my-agent:
     type: agent

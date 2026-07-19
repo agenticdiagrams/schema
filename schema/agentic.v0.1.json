@@ -40,7 +40,10 @@
         "description": { "type": "string" },
         "type": { "type": "string", "enum": ["system", "component"] },
         "active_scenario": { "type": "string" },
-        "parent_diagram": { "type": "string", "description": "Parent diagram id for drill-down hierarchy" },
+        "parent_diagram": {
+          "type": "string",
+          "description": "Parent diagram id for drill-down hierarchy"
+        },
         "created": { "type": "string", "format": "date-time" },
         "updated": { "type": "string", "format": "date-time" }
       }
@@ -48,11 +51,35 @@
     "nodeType": {
       "type": "string",
       "enum": [
-        "agent", "tool", "component", "backend", "generic", "note",
-        "system", "memory", "gateway", "skill", "channel", "waypoint",
-        "router", "human", "trigger", "guardrail", "model", "aggregator",
-        "observability", "group", "block", "image", "prompt", "user",
-        "output", "knowledge_base", "environment", "text_label", "divider"
+        "agent",
+        "tool",
+        "component",
+        "backend",
+        "generic",
+        "note",
+        "system",
+        "memory",
+        "gateway",
+        "skill",
+        "channel",
+        "waypoint",
+        "router",
+        "human",
+        "trigger",
+        "guardrail",
+        "model",
+        "aggregator",
+        "observability",
+        "group",
+        "block",
+        "image",
+        "prompt",
+        "user",
+        "output",
+        "knowledge_base",
+        "environment",
+        "text_label",
+        "divider"
       ]
     },
     "node": {
@@ -68,7 +95,10 @@
         "sub_type": { "type": "string" },
         "url": { "type": "string", "format": "uri" },
         "group": { "type": "string", "description": "Parent group node id" },
-        "linked_diagram": { "type": "string", "description": "Drill-down target diagram id or file path" },
+        "linked_diagram": {
+          "type": "string",
+          "description": "Drill-down target diagram id or file path"
+        },
         "is_looping": { "type": "boolean" },
         "auth": { "type": "string" },
         "auth_detail": { "type": "string" },
@@ -109,7 +139,12 @@
       "description": "Freeform presentation hints for an edge (editor cosmetics). Known keys are typed; unknown keys are allowed.",
       "additionalProperties": true,
       "properties": {
-        "label_pos": { "type": "number", "minimum": 0, "maximum": 1, "description": "Label position along the edge as a fraction of its length (0 = source end, 1 = target end). Defaults to 0.5." }
+        "label_pos": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 1,
+          "description": "Label position along the edge as a fraction of its length (0 = source end, 1 = target end). Defaults to 0.5."
+        }
       }
     },
     "edgeArrows": {
@@ -125,7 +160,10 @@
         "to": { "type": "string", "description": "Target node id" },
         "type": { "$ref": "#/$defs/edgeType" },
         "label": { "type": "string" },
-        "condition": { "type": "string", "description": "Branch condition expression, e.g. 'approved', 'score > 0.8', 'default'" },
+        "condition": {
+          "type": "string",
+          "description": "Branch condition expression, e.g. 'approved', 'score > 0.8', 'default'"
+        },
         "animated": { "type": "boolean", "description": "Show animated flow on connection" },
         "arrows": { "$ref": "#/$defs/edgeArrows" },
         "path": { "$ref": "#/$defs/pathType" },
@@ -143,7 +181,10 @@
         "to": { "type": "string", "description": "Target node id" },
         "type": { "$ref": "#/$defs/edgeType" },
         "label": { "type": "string" },
-        "condition": { "type": "string", "description": "Branch condition expression, e.g. 'approved', 'score > 0.8', 'default'" },
+        "condition": {
+          "type": "string",
+          "description": "Branch condition expression, e.g. 'approved', 'score > 0.8', 'default'"
+        },
         "animated": { "type": "boolean", "description": "Show animated flow on connection" },
         "arrows": { "$ref": "#/$defs/edgeArrows" },
         "path": { "$ref": "#/$defs/pathType" },
