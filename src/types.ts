@@ -26,6 +26,8 @@ export interface AgenticNode {
   type: string;
   label?: string;
   sub_title?: string;
+  /** Short tag shown on the node, e.g. `NEW` or `beta`. */
+  badge?: string;
   description?: string;
   sub_type?: string;
   url?: string;
@@ -35,13 +37,30 @@ export interface AgenticNode {
   auth?: string;
   auth_detail?: string;
   provider?: string;
+  /** Model identifier, e.g. `claude-sonnet-4-6` — primarily for agent and model nodes. */
+  model?: string;
   content?: string;
   example_response?: string;
+  /** Input schema, usually JSON Schema serialised as a string — primarily for tool nodes. */
+  input_schema?: string;
+  /** Output schema, usually JSON Schema serialised as a string — primarily for tool nodes. */
+  output_schema?: string;
   edges?: AgenticInlineEdge[];
   /** Retention lifetime — primarily for memory nodes. Preset values: 'session' | '24h' | 'permanent'. Freeform strings (e.g. '7d') are accepted. */
   ttl?: string;
   /** Audience scope — primarily for memory nodes. Preset values: 'per-user' | 'per-session' | 'global'. Freeform strings accepted. */
   scope?: string;
+  /** Freeform properties the spec does not model (extra typed fields, editor hints). */
+  metadata?: AgenticNodeMetadata;
+}
+
+/**
+ * Freeform node properties the spec does not model — extra typed fields or
+ * editor hints — so an editor can round-trip them without a schema change.
+ * Values are limited to strings, numbers and booleans.
+ */
+export interface AgenticNodeMetadata {
+  [key: string]: string | number | boolean;
 }
 
 /**
@@ -85,9 +104,8 @@ export interface AgenticEdge {
   metadata?: AgenticEdgeMetadata;
 }
 
-export interface AgenticStep {
-  from: string;
-  to: string;
+/** Fields shared by both step forms. */
+export interface AgenticStepDetail {
   type?: string;
   label?: string;
   payload?: string;
@@ -102,6 +120,24 @@ export interface AgenticStep {
     position: 'left' | 'right' | 'over';
   };
 }
+
+/** A step that is a message between two nodes. */
+export interface AgenticMessageStep extends AgenticStepDetail {
+  from: string;
+  to: string;
+  nodes?: never;
+}
+
+/** A step that highlights nodes together — one node, or more than two. */
+export interface AgenticHighlightStep extends AgenticStepDetail {
+  /** Node ids highlighted at this step (at least one, no duplicates). */
+  nodes: string[];
+  from?: never;
+  to?: never;
+}
+
+/** A playback step: a `from`/`to` message or a `nodes` highlight, never both. */
+export type AgenticStep = AgenticMessageStep | AgenticHighlightStep;
 
 export interface AgenticScenario {
   name: string;
