@@ -307,8 +307,9 @@
     },
     "size2d": {
       "type": "array",
+      "description": "[width, height], or [width] alone to let the node's height follow its content",
       "items": { "type": "number", "minimum": 0 },
-      "minItems": 2,
+      "minItems": 1,
       "maxItems": 2
     },
     "viewport": {

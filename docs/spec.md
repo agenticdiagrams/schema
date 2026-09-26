@@ -436,6 +436,7 @@ layout:
     inventory-agent: [100, 200]
   sizes:
     orchestrator: [240, 117]
+    inventory-agent: [320] # width only: height follows the content
   node_styles:
     orchestrator:
       borderless: true
@@ -445,13 +446,13 @@ layout:
 
 ### Layout properties
 
-| Property      | Type   | Default | Description                                     |
-| ------------- | ------ | ------- | ----------------------------------------------- |
-| `direction`   | string | `TB`    | Auto-layout flow: `TB`, `LR`, `BT`, `RL`        |
-| `viewport`    | array  | —       | `[x, y, zoom]` — initial camera position        |
-| `positions`   | map    | —       | Node id → `[x, y]` coordinates                  |
-| `sizes`       | map    | —       | Node id → `[width, height]` measured dimensions |
-| `node_styles` | map    | —       | Node id → visual style overrides (see below)    |
+| Property      | Type   | Default | Description                                                           |
+| ------------- | ------ | ------- | --------------------------------------------------------------------- |
+| `direction`   | string | `TB`    | Auto-layout flow: `TB`, `LR`, `BT`, `RL`                              |
+| `viewport`    | array  | —       | `[x, y, zoom]` — initial camera position                              |
+| `positions`   | map    | —       | Node id → `[x, y]` coordinates                                        |
+| `sizes`       | map    | —       | Node id → `[width, height]`, or `[width]` when height follows content |
+| `node_styles` | map    | —       | Node id → visual style overrides (see below)                          |
 
 ### Direction values
 

@@ -156,6 +156,7 @@ export interface AgenticLayout {
   direction?: 'TB' | 'LR' | 'BT' | 'RL';
   viewport?: [number, number, number];
   positions?: Record<string, [number, number]>;
-  sizes?: Record<string, [number, number]>;
+  /** Node id → `[width, height]`, or `[width]` alone when the height follows the node's content. */
+  sizes?: Record<string, [number, number] | [number]>;
   node_styles?: Record<string, AgenticNodeStyle>;
 }

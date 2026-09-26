@@ -331,6 +331,16 @@ describe('validate', () => {
     }
   });
 
+  it('accepts a width-only size, and still rejects empty or three-value sizes', () => {
+    const size = (value: number[]) =>
+      validate({ agentic: '0.1', layout: { sizes: { a: value } } }).valid;
+    expect(size([320])).toBe(true);
+    expect(size([320, 140])).toBe(true);
+    expect(size([])).toBe(false);
+    expect(size([320, 140, 1])).toBe(false);
+    expect(size([-1])).toBe(false);
+  });
+
   it('returns structured error messages', () => {
     const result = validate({ agentic: '0.1', edges: 'not-an-array' });
     expect(result.valid).toBe(false);
