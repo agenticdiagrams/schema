@@ -7,13 +7,30 @@ on:
     branches: [main]
 
 jobs:
+  # Branch protection requires a status check named exactly `test`, so keep this
+  # job's name stable (a matrix would rename it to `test (24)` and block merges).
   test:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v7
-      - uses: actions/setup-node@v6
+      - uses: actions/setup-node@v7
         with:
           node-version: 24
+          cache: npm
+      - run: npm ci
+      - run: npm run typecheck
+      - run: npm run build
+      - run: npm test
+
+  # Node 26 (current LTS) coverage. Not a required check; Node 24 is what the
+  # package is published from.
+  test-node-26:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v7
+      - uses: actions/setup-node@v7
+        with:
+          node-version: 26
           cache: npm
       - run: npm ci
       - run: npm run typecheck
